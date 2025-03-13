@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# Шлях до папки з аудіофайлами
 data_path = "/Users/Mkrvsk/Desktop/diploma/sounds/ambulance"
 
 audio_files = [f for f in os.listdir(data_path) if f.endswith('.wav')]

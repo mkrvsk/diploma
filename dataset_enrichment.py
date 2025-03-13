@@ -21,7 +21,7 @@ def change_pitch(y, sr, pitch_factor=2):
 
 # 4. Часова трансформація
 def time_shift(y, shift_max=2):
-    shift = random.randint(-shift_max, shift_max)  # випадковий зсув в межах shift_max
+    shift = random.randint(-shift_max, shift_max)
     return np.roll(y, shift)
 
 def augment_audio_files(data_path, class_names, output_path, augment_factor=1):
@@ -33,24 +33,17 @@ def augment_audio_files(data_path, class_names, output_path, augment_factor=1):
             file_path = os.path.join(class_folder, audio_file)
             y, sr = librosa.load(file_path, sr=None)
 
-            # Створимо кілька аугментованих варіантів
             for i in range(augment_factor):
-                # 1. Додавання шуму
                 y_noisy = add_noise(y)
 
-                # 2. Зміна швидкості
                 y_speed = change_speed(y)
 
-                # 3. Зміна висоти
                 y_pitch = change_pitch(y, sr)
 
-                # 4. Часова трансформація
                 y_shifted = time_shift(y)
 
-                # Збережемо аугментовані файли
                 base_file_name = audio_file.replace('.wav', '')
 
-                # Збереження аугментованих аудіофайлів
                 sf.write(os.path.join(output_path, class_name, f"{base_file_name}_noisy_{i}.wav"), y_noisy, sr)
                 sf.write(os.path.join(output_path, class_name, f"{base_file_name}_speed_{i}.wav"), y_speed, sr)
                 sf.write(os.path.join(output_path, class_name, f"{base_file_name}_pitch_{i}.wav"), y_pitch, sr)
@@ -59,11 +52,10 @@ def augment_audio_files(data_path, class_names, output_path, augment_factor=1):
                 print(f"Processed and saved {base_file_name} with augmentations.")
 
 data_path = "/Users/Mkrvsk/Desktop/diploma/sounds"
-output_path = "/Users/Mkrvsk/Desktop/diploma/sounds_augmented"  # Шлях до папки для збереження аугментованих даних
+output_path = "/Users/Mkrvsk/Desktop/diploma/sounds_augmented"
 class_names = ['Ambulance', 'Firetruck', 'Traffic']
 
 for class_name in class_names:
     os.makedirs(os.path.join(output_path, class_name), exist_ok=True)
 
-# Запуск аугментації аудіофайлів
 augment_audio_files(data_path, class_names, output_path, augment_factor=2)
