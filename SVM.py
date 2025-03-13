@@ -9,3 +9,7 @@ y_pred_svm = svm_model.predict(X_test_mfcc)
 
 print("SVM Accuracy:", accuracy_score(y_test, y_pred_svm))
 print("SVM Classification Report:\n", classification_report(y_test, y_pred_svm))
+
+from evaluation import evaluate_model
+
+evaluate_model(y_test, y_pred_svm, "SVM")
